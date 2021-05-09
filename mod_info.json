@@ -1,0 +1,10 @@
+{
+    "id": "automatedcommands",
+    "name": "Automated Commands",
+    "author": "borgrel",
+    "version": "0.1",
+    "utility": "false",
+    "description": "Allows the player to assign automated ship commands as hullmods",
+    "gameVersion": "0.95a-RC15",
+    "jars":["jars/AutomatedCommands.jar"]
+}
