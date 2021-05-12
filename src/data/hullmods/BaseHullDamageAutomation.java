@@ -2,7 +2,7 @@ package data.hullmods;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 
-public class BaseHullDamageAutomation extends BaseAutomatedHullMod {
+public class BaseHullDamageAutomation extends BaseRetreatHullMod {
     protected final float threshold;
 
     protected BaseHullDamageAutomation(float threshold) {
