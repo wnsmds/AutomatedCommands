@@ -3,7 +3,7 @@ package data.hullmods;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 
-public class MissileAmmoDepletedRetreat extends BaseAutomatedHullMod {
+public class MissileAmmoDepletedRetreat extends BaseRetreatHullMod {
     @Override
     protected boolean triggerCondition(ShipAPI ship) {
         for (WeaponAPI weapon : ship.getAllWeapons()) {
