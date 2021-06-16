@@ -1,8 +1,14 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.GameState;
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.characters.PersonAPI;
+import com.fs.starfarer.api.combat.ShipAIConfig;
+import com.fs.starfarer.api.combat.ShipAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 
 public class BaseAIAssigner extends BaseAutomatedHullMod {
+    private static final String PREFIX = "automated_personality_";
     enum Personality {
         TIMID,
         CAUTIOUS,
@@ -10,13 +16,14 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         AGGRESSIVE,
         RECKLESS;
         final String id;
+        final String desc;
         Personality() {
-            id = PREFIX + this.name().toLowerCase();
+            desc = this.name().toLowerCase();
+            id = PREFIX + desc;
         }
     }
 
-    private static final String PREFIX = "automated_personality_";
-    private static final String TAG = "personality";
+    protected static final String TOKEN = "";
 
     private final Personality personality;
 
@@ -39,11 +46,29 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         return true;
     }
     protected String message(ShipAPI ship) {
-        return "has been assigned a " + personality.name().toLowerCase() + " personality.";
+        return "has been assigned a " + personality.desc + " personality.";
     }
-    /*@Override
-    public boolean isApplicableToShip(ShipAPI ship) {
-        LOGGER.info(ship.getVariant().getTags());
-        return (!ship.getVariant().getTags().contains(TAG));
-    }*/
+    @Override
+    public void advanceInCombat(ShipAPI ship, float amount) {
+        if (Global.getCurrentState() != GameState.COMBAT) return;
+        String tag = ship.getId() + "_" + personality.id;
+        if (Global.getCombatEngine().getCustomData().containsKey(tag)) return;
+        Global.getCombatEngine().getCustomData().put(tag, TOKEN);
+        overrideAI(ship);
+    }
+    protected void overrideAI(ShipAPI ship) {
+        PersonAPI captain = ship.getCaptain();
+        if (/*captain == null ||*/ !captain.isDefault()) return; //Ship has officer, do not apply customAI
+        //if (captain.isPlayer()) return; // Ship has no ShipAI
+        ShipAIPlugin ai = ship.getShipAI();
+        if (ai == null) {
+            ShipAIConfig config = new ShipAIConfig();
+            Global.getSettings().createDefaultShipAI(ship,config);
+            formatShipMessage(ship, message(ship) + " (By Default)");
+            return; // Ship is not currently autopilotted
+        }
+        ai.getConfig().personalityOverride = personality.desc;
+        formatShipMessage(ship, message(ship));
+
+    }
 }
