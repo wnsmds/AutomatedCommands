@@ -16,4 +16,11 @@ public class BaseHullDamageAutomation extends BaseRetreatHullMod {
     protected String message(ShipAPI ship) {
         return String.format("hull integrity is %d%%", (int)(ship.getHullLevel() * 100f));
     }
+    @Override
+    public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
+        switch (index) {
+            case 0: return (int)(threshold*100f) + "%";
+            default: return null;
+        }
+    }
 }

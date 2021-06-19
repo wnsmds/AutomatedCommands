@@ -35,4 +35,11 @@ public class MissileAmmoDepletedRetreat extends BaseRetreatHullMod {
         }
         return false;
     }
+    @Override
+    public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
+        switch (index) {
+            case 0: return "no missile";
+            default: return null;
+        }
+    }
 }

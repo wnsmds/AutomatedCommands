@@ -4,8 +4,9 @@ import com.fs.starfarer.api.GameState;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.ShipAIConfig;
-import com.fs.starfarer.api.combat.ShipAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
+
+import java.util.Objects;
 
 public class BaseAIAssigner extends BaseAutomatedHullMod {
     private static final String PREFIX = "automated_personality_";
@@ -16,10 +17,16 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         AGGRESSIVE,
         RECKLESS;
         final String id;
-        final String desc;
+        final String value;
         Personality() {
-            desc = this.name().toLowerCase();
-            id = PREFIX + desc;
+            value = this.name().toLowerCase();
+            id = PREFIX + value;
+        }
+        String withArticle() {
+            return withArticle(this);
+        }
+        static String withArticle(Personality personality) {
+            return ((personality == AGGRESSIVE)?"an ":"a ") + personality.value;
         }
     }
 
@@ -28,6 +35,7 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
     private final Personality personality;
 
     public BaseAIAssigner(Personality personality) {
+        Objects.requireNonNull(personality);
         this.personality = personality;
     }
 
@@ -45,8 +53,15 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         }
         return true;
     }
+    @Override
+    public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
+        switch (index) {
+            case 0: return personality.value;
+            default: return null;
+        }
+    }
     protected String message(ShipAPI ship) {
-        return "has been assigned a " + personality.desc + " personality.";
+        return "has been assigned " + personality.withArticle() + " personality.";
     }
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
@@ -60,14 +75,13 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         PersonAPI captain = ship.getCaptain();
         if (/*captain == null ||*/ !captain.isDefault()) return; //Ship has officer, do not apply customAI
         //if (captain.isPlayer()) return; // Ship has no ShipAI
-        ShipAIPlugin ai = ship.getShipAI();
-        if (ai == null) {
+        if (ship.getShipAI() == null) {
             ShipAIConfig config = new ShipAIConfig();
             Global.getSettings().createDefaultShipAI(ship,config);
-            formatShipMessage(ship, message(ship) + " (By Default)");
+            formatShipMessage(ship, message(ship) + " (By default)");
             return; // Ship is not currently autopilotted
         }
-        ai.getConfig().personalityOverride = personality.desc;
+        ship.getShipAI().getConfig().personalityOverride = personality.value;
         formatShipMessage(ship, message(ship));
 
     }

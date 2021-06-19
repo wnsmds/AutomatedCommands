@@ -5,6 +5,8 @@ import com.fs.starfarer.api.combat.ShipAPI;
 public class BaseCRLevelAutomation extends BaseRetreatHullMod {
     protected final float threshold;
 
+    //ship.getHullSpec().getNoCRLossTime();
+    //stats.getPeakCRDuration().computeEffective(hullspec.getNoCRLossTime()) - ship.getTimeDeployedForCRReduction()
     protected BaseCRLevelAutomation(float threshold) {
         this.threshold = threshold;
     }
@@ -16,5 +18,12 @@ public class BaseCRLevelAutomation extends BaseRetreatHullMod {
     @Override
     protected String message(ShipAPI ship) {
         return String.format("combat readiness is %d%%", (int)(ship.getCurrentCR() * 100f));
+    }
+    @Override
+    public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
+        switch (index) {
+            case 0: return (int)(threshold*100f) + "%";
+            default: return null;
+        }
     }
 }
