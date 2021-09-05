@@ -10,7 +10,7 @@ import java.awt.*;
 
 public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
     private static final Object TOKEN = "";
-    private static final Logger LOGGER = Global.getLogger(BaseRetreatHullMod.class);
+    //private static final Logger LOGGER = Global.getLogger(BaseRetreatHullMod.class);
 
     protected abstract boolean triggerCondition(ShipAPI ship);
     protected abstract String message(ShipAPI ship);
@@ -36,13 +36,6 @@ public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
             taskManager.orderRetreat(member, false, false);
         }
     }
-    /*
-    private static void orderRetreat(ShipAPI ship, String reason) {
-        if (!ship.isRetreating()) {
-            ship.setRetreating(true, false); //does not work
-            formatShipMessage(ship, reason + " - retreating ...");
-        }
-    }/*
     /*
     @Override
     public void init(HullModSpecAPI spec) {

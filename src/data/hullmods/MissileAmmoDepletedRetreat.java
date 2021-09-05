@@ -3,6 +3,8 @@ package data.hullmods;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 
+import java.util.Scanner;
+
 public class MissileAmmoDepletedRetreat extends BaseRetreatHullMod {
     @Override
     protected boolean triggerCondition(ShipAPI ship) {

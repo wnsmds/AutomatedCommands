@@ -8,7 +8,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 
 import java.util.Objects;
 
-public class BaseAIAssigner extends BaseAutomatedHullMod {
+public class BasePersonalityAssigner extends BaseAutomatedHullMod {
     private static final String PREFIX = "automated_personality_";
     enum Personality {
         TIMID,
@@ -23,10 +23,7 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
             id = PREFIX + value;
         }
         String withArticle() {
-            return withArticle(this);
-        }
-        static String withArticle(Personality personality) {
-            return ((personality == AGGRESSIVE)?"an ":"a ") + personality.value;
+            return ((this == AGGRESSIVE)?"an ":"a ") + this.value;
         }
     }
 
@@ -34,7 +31,7 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
 
     private final Personality personality;
 
-    public BaseAIAssigner(Personality personality) {
+    public BasePersonalityAssigner(Personality personality) {
         Objects.requireNonNull(personality);
         this.personality = personality;
     }
@@ -72,17 +69,14 @@ public class BaseAIAssigner extends BaseAutomatedHullMod {
         overrideAI(ship);
     }
     protected void overrideAI(ShipAPI ship) {
-        PersonAPI captain = ship.getCaptain();
-        if (/*captain == null ||*/ !captain.isDefault()) return; //Ship has officer, do not apply customAI
-        //if (captain.isPlayer()) return; // Ship has no ShipAI
-        if (ship.getShipAI() == null) {
+        if (!ship.getCaptain().isDefault()) return; //Ship has officer, do not apply customAI
+        if (ship.getShipAI() == null) { // Ship is not currently autopilotted
             ShipAIConfig config = new ShipAIConfig();
             Global.getSettings().createDefaultShipAI(ship,config);
             formatShipMessage(ship, message(ship) + " (By default)");
-            return; // Ship is not currently autopilotted
+            return;
         }
         ship.getShipAI().getConfig().personalityOverride = personality.value;
         formatShipMessage(ship, message(ship));
-
     }
 }
