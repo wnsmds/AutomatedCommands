@@ -4,9 +4,11 @@ import com.fs.starfarer.api.combat.ShipAPI;
 
 public class BaseHullDamageAutomation extends BaseRetreatHullMod {
     protected final float threshold;
+    protected final String thresholdText;
 
     protected BaseHullDamageAutomation(float threshold) {
         this.threshold = threshold;
+        thresholdText = Util.percentage(threshold);
     }
     @Override
     protected boolean triggerCondition(ShipAPI ship) {
@@ -14,12 +16,12 @@ public class BaseHullDamageAutomation extends BaseRetreatHullMod {
     }
     @Override
     protected String message(ShipAPI ship) {
-        return String.format("hull integrity is %d%%", (int)(ship.getHullLevel() * 100f));
+        return String.format("hull integrity is %s", Util.percentage(ship.getHullLevel()));
     }
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
         switch (index) {
-            case 0: return (int)(threshold*100f) + "%";
+            case 0: return thresholdText;
             default: return null;
         }
     }

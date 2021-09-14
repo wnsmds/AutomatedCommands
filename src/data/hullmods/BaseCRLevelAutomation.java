@@ -22,7 +22,7 @@ public class BaseCRLevelAutomation extends BaseRetreatHullMod {
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
         switch (index) {
-            case 0: return (int)(threshold*100f) + "%";
+            case 0: return Util.percentage(threshold);
             default: return null;
         }
     }

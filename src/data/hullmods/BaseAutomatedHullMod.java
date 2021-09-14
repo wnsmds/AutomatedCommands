@@ -8,9 +8,9 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 import org.apache.log4j.Logger;
 
-import java.awt.*;
+import java.awt.Color;
 
-public class BaseAutomatedHullMod extends BaseHullMod {
+public abstract class BaseAutomatedHullMod extends BaseHullMod {
     private static final Logger LOGGER = Global.getLogger(BaseAutomatedHullMod.class);
 
     private static final Color TEXT_COLOR = Global.getSettings().getColor("standardTextColor");
