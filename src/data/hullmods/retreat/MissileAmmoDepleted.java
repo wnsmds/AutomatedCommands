@@ -1,18 +1,14 @@
-package data.hullmods;
+package data.hullmods.retreat;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 
-import java.util.Scanner;
-
-public class MissileAmmoDepletedRetreat extends BaseRetreatHullMod {
+public class MissileAmmoDepleted extends BaseRetreat {
     @Override
     protected boolean triggerCondition(ShipAPI ship) {
         for (WeaponAPI weapon : ship.getAllWeapons()) {
-            if (weapon.getType() == WeaponAPI.WeaponType.MISSILE) {
-                if (weapon.getAmmo() > 0) {
+            if (weapon.getType() == WeaponAPI.WeaponType.MISSILE && weapon.getAmmo() > 0) {
                     return false;
-                }
             }
         }
         return true;
@@ -37,11 +33,11 @@ public class MissileAmmoDepletedRetreat extends BaseRetreatHullMod {
         }
         return false;
     }
+
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
-        switch (index) {
-            case 0: return "no missile";
-            default: return null;
-        }
+        if (index == 0)
+            return "no missile";
+        return null;
     }
 }

@@ -1,14 +1,11 @@
-package data.hullmods;
+package data.hullmods.retreat;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.mission.FleetSide;
-import org.apache.log4j.Logger;
+import data.hullmods.AutomatedHullMod;
 
-import java.awt.*;
-
-public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
+public abstract class BaseRetreat extends AutomatedHullMod {
     private static final Object TOKEN = "";
     //private static final Logger LOGGER = Global.getLogger(BaseRetreatHullMod.class);
 

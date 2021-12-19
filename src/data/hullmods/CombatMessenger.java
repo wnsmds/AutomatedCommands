@@ -6,9 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
 
 public class CombatMessenger {
     private static final Color TEXT_COLOR = Global.getSettings().getColor("standardTextColor");
