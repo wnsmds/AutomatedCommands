@@ -1,5 +1,7 @@
 {
   "AutomatedCommands":{
+    "PERCENT": "{0, number, percent}",
+
     "TIMID": "timid",
     "CAUTIOUS": "cautious",
     "STEADY": "steady",
@@ -7,11 +9,9 @@
     "RECKLESS": "reckless",
 
     "PERSONALITY_UNAPPLICABLE_REASON": "Ship may only have 1 personality hullmod",
-    "PERSONALITY_DISABLED_REASON": "{0} has an Officer, AI-Personality-System disabled",
-    "PERSONALITY_APPLIED": "{0} has been assigned a {1} personality",
+    "PERSONALITY_DISABLED_REASON": "{0} has an Officer, AI-Personality-Override disabled",
+    "PERSONALITY_APPLIED": "{0} has been assigned the {1} personality",
     "PERSONALITY_APPLIED_FLAGSHIP": "$AutomatedCommands:PERSONALITY_APPLIED (for Autopilot)",
-
-    "VENTING_LIMIT": "{1, number, percent}",
 
     "MISSILE": "no missile ammo",
     "MISSILE_UNAPPLICABLE_REASON": "Ship has no missiles installed",

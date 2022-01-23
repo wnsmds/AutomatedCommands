@@ -16,7 +16,7 @@ public class BaseVenting extends AutomatedHullMod {
 
     public BaseVenting() {
         limit = 0.8f;
-        limitText = (int) (limit * 100) + "%";
+        limitText = Util.percentToString(limit);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BaseVenting extends AutomatedHullMod {
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
         if (index == 0)
-            return Util.percentage(limit);
+            return limitText;
         return null;
     }
 }

@@ -16,6 +16,7 @@ public abstract class BaseRetreat extends AutomatedHullMod {
     public void advanceInCombat(ShipAPI ship, float amount) {
         final String key = ship.getId() + "_" + this.getClass().getName();
         if (Global.getCombatEngine().getCustomData().containsKey(key)) return;
+
         if (triggerCondition(ship)) {
             Global.getCombatEngine().getCustomData().put(key, TOKEN);
             orderRetreat(ship, message(ship));
@@ -33,10 +34,4 @@ public abstract class BaseRetreat extends AutomatedHullMod {
             taskManager.orderRetreat(member, false, false);
         }
     }
-    /*
-    @Override
-    public void init(HullModSpecAPI spec) {
-        LOGGER.info("Automated Commands mod initialized");
-    }
-     */
 }

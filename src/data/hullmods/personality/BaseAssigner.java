@@ -11,10 +11,10 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 public class BaseAssigner extends AutomatedHullMod {
-    private static final MessageFormat PERSONALITY_UNAPPLICABLE_REASON = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_UNAPPLICABLE_REASON");
-    private static final MessageFormat PERSONALITY_DISABLED_REASON = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_DISABLED_REASON");
-    private static final MessageFormat PERSONALITY_APPLIED = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_APPLIED");
-    private static final MessageFormat PERSONALITY_APPLIED_FLAGSHIP = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_APPLIED_FLAGSHIP");
+    private static final MessageFormat PERSONALITY_UNAPPLICABLE_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_UNAPPLICABLE_REASON");
+    private static final MessageFormat PERSONALITY_DISABLED_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_DISABLED_REASON");
+    private static final MessageFormat PERSONALITY_APPLIED = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED");
+    private static final MessageFormat PERSONALITY_APPLIED_FLAGSHIP = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED_FLAGSHIP");
 
     private static final String PREFIX = "automated_personality_";
     private static final String CATEGORY = "personality";
@@ -32,10 +32,6 @@ public class BaseAssigner extends AutomatedHullMod {
         Personality() {
             value = Global.getSettings().getString(Util.MOD_KEY, this.toString());
             id = PREFIX + value;
-        }
-
-        String withArticle() {
-            return ((this == AGGRESSIVE) ? "an " : "a ") + this.value;
         }
     }
 
@@ -65,11 +61,6 @@ public class BaseAssigner extends AutomatedHullMod {
         if (index == 0)
             return personality.value;
         return null;
-    }
-
-    protected String message(ShipAPI ship) {
-        return message(PERSONALITY_APPLIED, ship, personality);
-        //"has been assigned " + personality.withArticle() + " personality.";
     }
 
     @Override
