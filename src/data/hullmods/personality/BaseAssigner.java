@@ -5,10 +5,17 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAIConfig;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.AutomatedHullMod;
+import data.hullmods.Util;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 public class BaseAssigner extends AutomatedHullMod {
+    private static final MessageFormat PERSONALITY_UNAPPLICABLE_REASON = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_UNAPPLICABLE_REASON");
+    private static final MessageFormat PERSONALITY_DISABLED_REASON = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_DISABLED_REASON");
+    private static final MessageFormat PERSONALITY_APPLIED = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_APPLIED");
+    private static final MessageFormat PERSONALITY_APPLIED_FLAGSHIP = Util.applyTemplate(Util.MOD_KEY +":PERSONALITY_APPLIED_FLAGSHIP");
+
     private static final String PREFIX = "automated_personality_";
     private static final String CATEGORY = "personality";
     protected static final String TOKEN = "";
@@ -23,7 +30,7 @@ public class BaseAssigner extends AutomatedHullMod {
         final String value;
 
         Personality() {
-            value = this.name().toLowerCase();
+            value = Global.getSettings().getString(Util.MOD_KEY, this.toString());
             id = PREFIX + value;
         }
 
@@ -39,9 +46,13 @@ public class BaseAssigner extends AutomatedHullMod {
         this.personality = personality;
     }
 
+    private String message(MessageFormat formatter, ShipAPI ship, Personality personality) {
+        return formatter.format(new Object[]{ship, personality});
+    }
+
     @Override
     public String getUnapplicableReason(ShipAPI ship) {
-        return "Ship may only have 1 personality hullmod";
+        return message(PERSONALITY_UNAPPLICABLE_REASON, ship, personality);
     }
 
     @Override
@@ -57,7 +68,8 @@ public class BaseAssigner extends AutomatedHullMod {
     }
 
     protected String message(ShipAPI ship) {
-        return "has been assigned " + personality.withArticle() + " personality.";
+        return message(PERSONALITY_APPLIED, ship, personality);
+        //"has been assigned " + personality.withArticle() + " personality.";
     }
 
     @Override
@@ -71,16 +83,16 @@ public class BaseAssigner extends AutomatedHullMod {
 
     protected void overrideAI(ShipAPI ship) {
         if (!ship.getCaptain().isDefault()) {
-            formatShipMessage(ship, " has an Officer, AI Personality system disabled");
+            formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
             return; //Ship has officer, do not apply customAI
         }
         if (ship.getShipAI() == null) { // Ship is not currently autopilotted
             ShipAIConfig config = new ShipAIConfig();
             Global.getSettings().createDefaultShipAI(ship, config);
-            formatShipMessage(ship, message(ship) + " (By default)");
+            formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
             return;
         }
         ship.getShipAI().getConfig().personalityOverride = personality.value;
-        formatShipMessage(ship, message(ship));
+        formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
     }
 }
