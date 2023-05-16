@@ -1,7 +1,6 @@
 package data.hullmods;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -10,30 +9,31 @@ import org.apache.log4j.Logger;
 
 import java.awt.Color;
 
-public abstract class BaseAutomatedHullMod extends BaseHullMod {
-    private static final Logger LOGGER = Global.getLogger(BaseAutomatedHullMod.class);
+public abstract class AutomatedHullMod extends com.fs.starfarer.api.combat.BaseHullMod {
+    private static final Logger LOGGER = Global.getLogger(AutomatedHullMod.class);
 
     private static final Color TEXT_COLOR = Global.getSettings().getColor("standardTextColor");
     private static final Color FRIEND_COLOR = Global.getSettings().getColor("textFriendColor");
     private static final Color MESSAGE_COLOR = Color.CYAN;
-    //private static final Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
+    private static final Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
 
-    protected static String getShipName(FleetMemberAPI member) {
+    protected static String getShipName(ShipAPI ship) {
         // TODO does 'getHullNameWithDashClass()' already discriminate for fighters
-        if (member.isFighterWing()) {
-            return member.getHullSpec().getHullName() + " wing";
+        if (ship.isFighter()) {
+            return ship.getHullSpec().getHullName() + " wing";
         }
-        return member.getShipName() + " (" + member.getHullSpec().getHullNameWithDashClass() + ")";
+        return ship.getName() + " (" + ship.getHullSpec().getHullNameWithDashClass() + ")";
     }
     protected static void formatShipMessage(ShipAPI ship, String reason) {
         LOGGER.info(ship.getName() + " - " + reason);
 
-        DeployedFleetMemberAPI deployedMember
+        DeployedFleetMemberAPI deployedMemberAPI
                 = Global.getCombatEngine().getFleetManager(FleetSide.PLAYER).getDeployedFleetMember(ship);
-        if (deployedMember == null) return;
-        String shipName = getShipName(deployedMember.getMember());
+        if (deployedMemberAPI == null) return;
+
+        String shipName = getShipName(ship);
         Object[] message = new Object[]{
-                deployedMember,
+                deployedMemberAPI,
                 FRIEND_COLOR, shipName,
                 TEXT_COLOR, ": ",
                 MESSAGE_COLOR, reason };

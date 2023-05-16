@@ -1,14 +1,11 @@
-package data.hullmods;
+package data.hullmods.retreat;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.mission.FleetSide;
-import org.apache.log4j.Logger;
+import data.hullmods.AutomatedHullMod;
 
-import java.awt.*;
-
-public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
+public abstract class BaseRetreat extends AutomatedHullMod {
     private static final Object TOKEN = "";
     //private static final Logger LOGGER = Global.getLogger(BaseRetreatHullMod.class);
 
@@ -19,10 +16,20 @@ public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
     public void advanceInCombat(ShipAPI ship, float amount) {
         final String key = ship.getId() + "_" + this.getClass().getName();
         if (Global.getCombatEngine().getCustomData().containsKey(key)) return;
+
         if (triggerCondition(ship)) {
             Global.getCombatEngine().getCustomData().put(key, TOKEN);
             orderRetreat(ship, message(ship));
         }
+    }
+
+    private static boolean canRetreat(final ShipAPI ship) {
+        return !(ship.isAlive()
+                || ship.isFighter()
+                || !ship.isHulk()
+                || !ship.isPiece()
+                || ship.isStation()
+                || ship.isStationModule());
     }
 
     private static void orderRetreat(ShipAPI ship, String reason) {
@@ -36,10 +43,4 @@ public abstract class BaseRetreatHullMod extends BaseAutomatedHullMod {
             taskManager.orderRetreat(member, false, false);
         }
     }
-    /*
-    @Override
-    public void init(HullModSpecAPI spec) {
-        LOGGER.info("Automated Commands mod initialized");
-    }
-     */
 }
