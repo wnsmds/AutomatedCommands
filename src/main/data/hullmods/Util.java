@@ -11,7 +11,8 @@ public enum Util {
     ;
     public static final String MOD_KEY = "AutomatedCommands";
     private static final String REPLACE_VALUE = "variable";
-    private static final Pattern TEMPLATE_VARIABLE = Pattern.compile("\\$(?<" + REPLACE_VALUE + ">([A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+");
+    //"\\$(?<" + REPLACE_VALUE + ">(?:[A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+"
+    private static final Pattern TEMPLATE_VARIABLE = Pattern.compile("\\$(<" + REPLACE_VALUE + ">(?:[A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+");
     private static final MessageFormat PERCENT_FORMATTER = Util.resolveSubstitutions(MOD_KEY + ":PERCENT");
 
     public static String getString(String key) {

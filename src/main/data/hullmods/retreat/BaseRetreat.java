@@ -23,6 +23,15 @@ public abstract class BaseRetreat extends AutomatedHullMod {
         }
     }
 
+    private static boolean canRetreat(final ShipAPI ship) {
+        return !(ship.isAlive()
+                || ship.isFighter()
+                || !ship.isHulk()
+                || !ship.isPiece()
+                || ship.isStation()
+                || ship.isStationModule());
+    }
+
     private static void orderRetreat(ShipAPI ship, String reason) {
         CombatFleetManagerAPI fleetManager = Global.getCombatEngine().getFleetManager(FleetSide.PLAYER);
         CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
