@@ -5,6 +5,6 @@
     "version": "1.1a",
     "utility": "false",
     "description": "允许玩家以船插的形式分配自动船舰命令",
-    "gameVersion": "0.95a-RC15",
+    "gameVersion": "0.96a-RC9",
     "jars":["jars/AutomatedCommands.jar"]
 }
