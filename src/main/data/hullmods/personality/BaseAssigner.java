@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 public class BaseAssigner extends AutomatedHullMod {
-    private static final MessageFormat PERSONALITY_UNAPPLICABLE_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_UNAPPLICABLE_REASON");
+    private static final MessageFormat PERSONALITY_INAPPLICABLE_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_INAPPLICABLE_REASON");
     private static final MessageFormat PERSONALITY_DISABLED_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_DISABLED_REASON");
     private static final MessageFormat PERSONALITY_APPLIED = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED");
     private static final MessageFormat PERSONALITY_APPLIED_FLAGSHIP = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED_FLAGSHIP");
@@ -48,7 +48,7 @@ public class BaseAssigner extends AutomatedHullMod {
 
     @Override
     public String getUnapplicableReason(ShipAPI ship) {
-        return message(PERSONALITY_UNAPPLICABLE_REASON, ship, personality);
+        return message(PERSONALITY_INAPPLICABLE_REASON, ship, personality);
     }
 
     @Override
