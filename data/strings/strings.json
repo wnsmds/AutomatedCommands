@@ -8,13 +8,13 @@
     "AGGRESSIVE": "aggressive",
     "RECKLESS": "reckless",
 
-    "PERSONALITY_UNAPPLICABLE_REASON": "Ship may only have 1 personality hullmod",
+    "PERSONALITY_INAPPLICABLE_REASON": "Ship may only have 1 personality hullmod",
     "PERSONALITY_DISABLED_REASON": "{0} has an Officer, AI-Personality-Override disabled",
     "PERSONALITY_APPLIED": "{0} has been assigned the {1} personality",
     "PERSONALITY_APPLIED_FLAGSHIP": "$AutomatedCommands:PERSONALITY_APPLIED (for Autopilot)",
 
     "MISSILE": "no missile ammo",
-    "MISSILE_UNAPPLICABLE_REASON": "Ship has no missiles installed",
+    "MISSILE_INAPPLICABLE_REASON": "Ship has no missiles installed",
     "MISSILE_RETREAT_MESSAGE": "{0} has no missile left - retreating",
 
     "LOW_DAMAGE": "",
