@@ -74,16 +74,19 @@ public class BaseAssigner extends AutomatedHullMod {
 
     protected void overrideAI(ShipAPI ship) {
         if (!ship.getCaptain().isDefault()) {
+            //check if officer is the commander
+            if (ship.getShipAI() == null) { // Ship is not currently autopilotted
+                ShipAIConfig config = new ShipAIConfig();
+                Global.getSettings().createDefaultShipAI(ship, config);
+                formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
+                return;
+            }
             formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
             return; //Ship has officer, do not apply customAI
         }
-        if (ship.getShipAI() == null) { // Ship is not currently autopilotted
-            ShipAIConfig config = new ShipAIConfig();
-            Global.getSettings().createDefaultShipAI(ship, config);
-            formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
-            return;
-        }
+
         ship.getShipAI().getConfig().personalityOverride = personality.value;
+        ship.getShipAI().forceCircumstanceEvaluation(); //needed to make AI change personality?
         formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
     }
 }
