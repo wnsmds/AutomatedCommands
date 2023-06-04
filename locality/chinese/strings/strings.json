@@ -22,7 +22,11 @@
     "HIGH_DAMAGE": "",
     "DAMAGE_RETREAT_MESSAGE": "{0} hull integrity is {1, number, percent} - retreating",
 
-    "CR_RETREAT_MESSAGE": "{0} combat readiness is {1, number, percent} - retreating"
+    "CR_RETREAT_MESSAGE": "{0} combat readiness is {1, number, percent} - retreating",
+
+    "REGROUP": "regroup",
+    "ENGAGE": "engage",
+    "REGROUP_INAPPLICABLE": "Ship does not have Fighter Bays"
 
   }
 }
