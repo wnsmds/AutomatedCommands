@@ -2,6 +2,7 @@ package data.hullmods.personality;
 
 import com.fs.starfarer.api.GameState;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.ShipAIConfig;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.AutomatedHullMod;
@@ -73,20 +74,28 @@ public class BaseAssigner extends AutomatedHullMod {
     }
 
     protected void overrideAI(ShipAPI ship) {
-        if (!ship.getCaptain().isDefault()) {
-            //check if officer is the commander
-            if (ship.getShipAI() == null) { // Ship is not currently autopilotted
-                ShipAIConfig config = new ShipAIConfig();
-                Global.getSettings().createDefaultShipAI(ship, config);
-                formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
-                return;
-            }
-            formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
-            return; //Ship has officer, do not apply customAI
-        }
+        PersonAPI captain = ship.getCaptain();
+        if (captain.isPlayer()) {
+            setAI(ship);
+            formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
 
-        ship.getShipAI().getConfig().personalityOverride = personality.value;
-        ship.getShipAI().forceCircumstanceEvaluation(); //needed to make AI change personality?
-        formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
+        } else if (captain.isDefault()) {
+            setAI(ship);
+            formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
+
+        } else {
+            formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
+        }
+    }
+    protected void setAI(ShipAPI ship) {
+        //Generate new AI if one doesn't exist
+        if (ship.getShipAI() == null) {
+            ShipAIConfig config = new ShipAIConfig();
+            config.personalityOverride = personality.value;
+            Global.getSettings().createDefaultShipAI(ship, config);
+        } else {
+            ship.getShipAI().getConfig().personalityOverride = personality.value;
+            ship.getShipAI().forceCircumstanceEvaluation(); //needed to make AI change personality?
+        }
     }
 }
