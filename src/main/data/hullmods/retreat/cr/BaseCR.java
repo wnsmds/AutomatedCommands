@@ -2,7 +2,7 @@ package data.hullmods.retreat.cr;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.retreat.BaseRetreat;
-import data.hullmods.Util;
+import data.combatlog.Util;
 
 public class BaseCR extends BaseRetreat {
     protected final float threshold;

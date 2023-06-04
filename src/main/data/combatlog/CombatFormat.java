@@ -1,4 +1,4 @@
-package data.hullmods;
+package data.combatlog;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;

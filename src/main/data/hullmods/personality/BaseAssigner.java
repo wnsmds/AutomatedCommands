@@ -6,7 +6,7 @@ import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.ShipAIConfig;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.AutomatedHullMod;
-import data.hullmods.Util;
+import data.combatlog.Util;
 
 import java.text.MessageFormat;
 import java.util.Objects;

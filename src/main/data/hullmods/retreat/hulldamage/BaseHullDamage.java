@@ -2,7 +2,7 @@ package data.hullmods.retreat.hulldamage;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.retreat.BaseRetreat;
-import data.hullmods.Util;
+import data.combatlog.Util;
 
 public class BaseHullDamage extends BaseRetreat {
     protected final float threshold;

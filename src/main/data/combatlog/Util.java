@@ -1,9 +1,8 @@
-package data.hullmods;
+package data.combatlog;
 
 import com.fs.starfarer.api.Global;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
