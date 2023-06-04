@@ -11,10 +11,16 @@ public enum Util {
     ;
     public static final String MOD_KEY = "AutomatedCommands";
     private static final String REPLACE_VALUE = "variable";
-    //"\\$(?<" + REPLACE_VALUE + ">(?:[A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+"
-    private static final Pattern TEMPLATE_VARIABLE = Pattern.compile("\\$(<" + REPLACE_VALUE + ">(?:[A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+");
+
+    //Pattern to find items matching `$AutomatedCommands:PERSONALITY_APPLIED` and using
+    private static final Pattern TEMPLATE_VARIABLE = Pattern.compile("\\$(?<" + REPLACE_VALUE + ">(?:[A-Za-z_]*[A-Za-z]:)?([A-Z_]*[A-Z]))+");
     private static final MessageFormat PERCENT_FORMATTER = Util.resolveSubstitutions(MOD_KEY + ":PERCENT");
 
+    /**
+     * Fetches a defined string from a JSON file using `category:id` as shorthand for getString(category,id)
+     * @param key A string in the format `category:id`
+     * @return the fetched value
+     */
     public static String getString(String key) {
         int index = key.indexOf(":");
         if (index == -1) {
@@ -23,8 +29,13 @@ public enum Util {
         return Global.getSettings().getString(key.substring(0,index), key.substring(index+1));
     }
 
-    public static MessageFormat resolveSubstitutions(String key) {
-        String input = getString(key);
+    /**
+     * Replaces values of `$category:id` with the substitutions defined for them in the strings JSON files
+     * @param message A message to get parsed
+     * @return a string with `$category:id` replaced by predefined values
+     */
+    public static MessageFormat resolveSubstitutions(String message) {
+        String input = getString(message);
         Matcher matcher = TEMPLATE_VARIABLE.matcher(input);
 
         while (matcher.find()) {
