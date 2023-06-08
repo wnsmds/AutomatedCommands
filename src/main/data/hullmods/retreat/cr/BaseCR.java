@@ -7,7 +7,7 @@ import data.combatlog.Util;
 import java.text.MessageFormat;
 
 public class BaseCR extends BaseRetreat {
-    private static final MessageFormat CR_RETREAT_MESSAGE = Util.resolveSubstitutions(Util.MOD_KEY +":CR_RETREAT_MESSAGE");
+    protected static final MessageFormat CR_RETREAT_MESSAGE = Util.resolveSubstitutions(Util.MOD_KEY +":CR_RETREAT_MESSAGE");
     protected final float threshold;
 
     // TODO add a retreat before CR starts reducing
