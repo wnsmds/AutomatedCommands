@@ -2,9 +2,12 @@ package data.hullmods.retreat.cr;
 
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.retreat.BaseRetreat;
-import data.hullmods.Util;
+import data.combatlog.Util;
+
+import java.text.MessageFormat;
 
 public class BaseCR extends BaseRetreat {
+    protected static final MessageFormat CR_RETREAT_MESSAGE = Util.resolveSubstitutions(Util.MOD_KEY +":CR_RETREAT_MESSAGE");
     protected final float threshold;
 
     // TODO add a retreat before CR starts reducing
@@ -21,7 +24,7 @@ public class BaseCR extends BaseRetreat {
 
     @Override
     protected String message(ShipAPI ship) {
-        return String.format("combat readiness is %d%%", (int) (ship.getCurrentCR() * 100f));
+        return CR_RETREAT_MESSAGE.format(new Object[]{ship, ship.getCurrentCR()});
     }
 
     @Override

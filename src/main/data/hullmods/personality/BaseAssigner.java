@@ -2,16 +2,17 @@ package data.hullmods.personality;
 
 import com.fs.starfarer.api.GameState;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.ShipAIConfig;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.AutomatedHullMod;
-import data.hullmods.Util;
+import data.combatlog.Util;
 
 import java.text.MessageFormat;
 import java.util.Objects;
 
 public class BaseAssigner extends AutomatedHullMod {
-    private static final MessageFormat PERSONALITY_UNAPPLICABLE_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_UNAPPLICABLE_REASON");
+    private static final MessageFormat PERSONALITY_INAPPLICABLE_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_INAPPLICABLE_REASON");
     private static final MessageFormat PERSONALITY_DISABLED_REASON = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_DISABLED_REASON");
     private static final MessageFormat PERSONALITY_APPLIED = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED");
     private static final MessageFormat PERSONALITY_APPLIED_FLAGSHIP = Util.resolveSubstitutions(Util.MOD_KEY +":PERSONALITY_APPLIED_FLAGSHIP");
@@ -48,7 +49,7 @@ public class BaseAssigner extends AutomatedHullMod {
 
     @Override
     public String getUnapplicableReason(ShipAPI ship) {
-        return message(PERSONALITY_UNAPPLICABLE_REASON, ship, personality);
+        return message(PERSONALITY_INAPPLICABLE_REASON, ship, personality);
     }
 
     @Override
@@ -73,17 +74,28 @@ public class BaseAssigner extends AutomatedHullMod {
     }
 
     protected void overrideAI(ShipAPI ship) {
-        if (!ship.getCaptain().isDefault()) {
-            formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
-            return; //Ship has officer, do not apply customAI
-        }
-        if (ship.getShipAI() == null) { // Ship is not currently autopilotted
-            ShipAIConfig config = new ShipAIConfig();
-            Global.getSettings().createDefaultShipAI(ship, config);
+        PersonAPI captain = ship.getCaptain();
+        if (captain.isPlayer()) {
+            setAI(ship);
             formatShipMessage(ship, message(PERSONALITY_APPLIED_FLAGSHIP, ship, personality));
-            return;
+
+        } else if (captain.isDefault()) {
+            setAI(ship);
+            formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
+
+        } else {
+            formatShipMessage(ship, message(PERSONALITY_DISABLED_REASON, ship, personality));
         }
-        ship.getShipAI().getConfig().personalityOverride = personality.value;
-        formatShipMessage(ship, message(PERSONALITY_APPLIED, ship, personality));
+    }
+    protected void setAI(ShipAPI ship) {
+        //Generate new AI if one doesn't exist
+        if (ship.getShipAI() == null) {
+            ShipAIConfig config = new ShipAIConfig();
+            config.personalityOverride = personality.value;
+            Global.getSettings().createDefaultShipAI(ship, config);
+        } else {
+            ship.getShipAI().getConfig().personalityOverride = personality.value;
+            ship.getShipAI().forceCircumstanceEvaluation(); //needed to make AI change personality?
+        }
     }
 }

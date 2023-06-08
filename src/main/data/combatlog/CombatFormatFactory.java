@@ -1,10 +1,6 @@
-package data.hullmods;
+package data.combatlog;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.mission.FleetSide;
 
 import java.awt.*;
 

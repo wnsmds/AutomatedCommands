@@ -6,8 +6,7 @@ import com.fs.starfarer.api.mission.FleetSide;
 import data.hullmods.AutomatedHullMod;
 
 public abstract class BaseRetreat extends AutomatedHullMod {
-    private static final Object TOKEN = "";
-    //private static final Logger LOGGER = Global.getLogger(BaseRetreatHullMod.class);
+    protected static final Object TOKEN = "";
 
     protected abstract boolean triggerCondition(ShipAPI ship);
     protected abstract String message(ShipAPI ship);
@@ -23,21 +22,12 @@ public abstract class BaseRetreat extends AutomatedHullMod {
         }
     }
 
-    private static boolean canRetreat(final ShipAPI ship) {
-        return !(ship.isAlive()
-                || ship.isFighter()
-                || !ship.isHulk()
-                || !ship.isPiece()
-                || ship.isStation()
-                || ship.isStationModule());
-    }
-
     private static void orderRetreat(ShipAPI ship, String reason) {
         CombatFleetManagerAPI fleetManager = Global.getCombatEngine().getFleetManager(FleetSide.PLAYER);
         CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
         CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
         if (assignment == null || assignment.getType() != CombatAssignmentType.RETREAT) {
-            formatShipMessage(ship, reason + " - retreating ...");
+            formatShipMessage(ship, reason);
 
             DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
             taskManager.orderRetreat(member, false, false);
