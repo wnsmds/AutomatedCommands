@@ -37,7 +37,7 @@ public abstract class BaseRetreat extends AutomatedHullMod {
         CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
         CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
         if (assignment == null || assignment.getType() != CombatAssignmentType.RETREAT) {
-            formatShipMessage(ship, reason + " - retreating ...");
+            formatShipMessage(ship, reason);
 
             DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
             taskManager.orderRetreat(member, false, false);

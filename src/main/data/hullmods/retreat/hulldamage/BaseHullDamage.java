@@ -4,7 +4,10 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import data.hullmods.retreat.BaseRetreat;
 import data.combatlog.Util;
 
+import java.text.MessageFormat;
+
 public class BaseHullDamage extends BaseRetreat {
+    protected static final MessageFormat DAMAGE_RETREAT_MESSAGE = Util.resolveSubstitutions(Util.MOD_KEY + ":DAMAGE_RETREAT_MESSAGE");
     protected final float threshold;
     protected final String thresholdText;
 
@@ -20,7 +23,7 @@ public class BaseHullDamage extends BaseRetreat {
 
     @Override
     protected String message(ShipAPI ship) {
-        return String.format("hull integrity is %s", Util.percentage(ship.getHullLevel()));
+        return DAMAGE_RETREAT_MESSAGE.format(new Object[]{ship, ship.getHullLevel()});
     }
 
     @Override
