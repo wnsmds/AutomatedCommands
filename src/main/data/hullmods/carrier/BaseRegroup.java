@@ -9,11 +9,11 @@ import data.combatlog.Util;
 import java.text.MessageFormat;
 
 public class BaseRegroup extends AutomatedHullMod {
-    private static final String REGROUP = Global.getSettings().getString(Util.MOD_KEY, "REGROUP");
-    private static final String ENGAGE = Global.getSettings().getString(Util.MOD_KEY, "ENGAGE");
-    private static final MessageFormat REGROUP_INAPPLICABLE = Util.resolveSubstitutions(Util.MOD_KEY + ":REGROUP_INAPPLICABLE");
+    protected static final String REGROUP = Global.getSettings().getString(Util.MOD_KEY, "REGROUP");
+    protected static final String ENGAGE = Global.getSettings().getString(Util.MOD_KEY, "ENGAGE");
+    protected static final MessageFormat REGROUP_INAPPLICABLE = Util.resolveSubstitutions(Util.MOD_KEY + ":REGROUP_INAPPLICABLE");
 
-    private static final String NO_WINGS = "NO_WINGS";
+    //private static final String NO_WINGS = "NO_WINGS";
 
     private static final float THRESHOLD = 0.8f;
     private static final String THRESHOLD_TEXT = Util.percentToString(THRESHOLD);
@@ -36,9 +36,9 @@ public class BaseRegroup extends AutomatedHullMod {
         return REGROUP_INAPPLICABLE.format(new Object[]{ship});
     }
 
-    private String generateTag(ShipAPI ship) {
+    /*private String generateTag(ShipAPI ship) {
         return ship.getId() + "_regroup" + limitText;
-    }
+    }*/
 
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
